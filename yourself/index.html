@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yourself | نفسك — نظام إدارة الحياة المتكامل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════ شاشة الدخول / التسجيل ═══════════════ -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-bg-orb orb-1"></div>
+  <div class="auth-bg-orb orb-2"></div>
+  <div class="auth-bg-orb orb-3"></div>
+
+  <div class="auth-container glass-panel">
+    <!-- الجانب الترويجي -->
+    <div class="auth-info-side">
+      <div class="auth-brand">
+        <div class="brand-icon-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Yourself</h1>
+          <span>نظامك المتكامل لإدارة الحياة</span>
+        </div>
+      </div>
+      <h2>نظّم وقتك، احسب مالك،<br>واحترف إدارة حياتك.</h2>
+      <p>منصة واحدة تجمع لك ساعات العمل، حساب الأجر، المذكرة، تنظيم الوقت، ومتابعة صحتك ولياقتك — بتصميم عصري وتجربة سلسة.</p>
+      <ul class="auth-features">
+        <li><span class="feat-ico">⏱</span> حساب تلقائي لأجر الساعة والراتب الشهري</li>
+        <li><span class="feat-ico">💰</span> تسجيل الخصومات والإضافات وصافي الراتب</li>
+        <li><span class="feat-ico">📝</span> مذكرة شخصية وجدول أسبوعي لتنظيم الوقت</li>
+        <li><span class="feat-ico">💪</span> متابعة الوزن والسعرات والخطط الصحية</li>
+      </ul>
+      <div class="auth-stats">
+        <div><strong>100%</strong><span>آمن وخاص</span></div>
+        <div><strong>5</strong><span>أقسام متكاملة</span></div>
+        <div><strong>∞</strong><span>إمكانيات</span></div>
+      </div>
+    </div>
+
+    <!-- الجانب الفعلي للنماذج -->
+    <div class="auth-form-side">
+      <div class="auth-tabs">
+        <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')">تسجيل الدخول</button>
+        <button id="tabRegister" class="tab-btn" onclick="switchTab('register')">حساب جديد</button>
+      </div>
+
+      <!-- نموذج الدخول -->
+      <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="loginEmail" placeholder="example@mail.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary btn-block btn-glow">🚀 تسجيل الدخول</button>
+      </form>
+
+      <!-- نموذج التسجيل -->
+      <form id="registerForm" class="auth-form hidden" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>الاسم الكامل</label>
+          <input type="text" id="regName" placeholder="أحمد محمد" required>
+        </div>
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="regEmail" placeholder="example@mail.com" required>
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <input type="password" id="regPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
+        </div>
+        <div class="form-group">
+          <label>تأكيد كلمة المرور</label>
+          <input type="password" id="regConfirm" placeholder="••••••••" minlength="6" required>
+        </div>
+        <button type="submit" class="btn-primary btn-block btn-glow">✨ إنشاء الحساب</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ شاشة الإعداد (Onboarding Wizard) ═══════════════ -->
+<div id="onboardingScreen" class="onboarding-screen hidden">
+  <div class="onboarding-bg-orb"></div>
+  
+  <div class="onboarding-container glass-panel">
+    <!-- شريط التقدم -->
+    <div class="wizard-progress">
+      <div class="wizard-progress-bar" id="wizardProgressBar"></div>
+      <div class="wizard-steps" id="wizardSteps">
+        <!-- يتم توليدها ديناميكياً -->
+      </div>
+    </div>
+
+    <div class="onboarding-content" id="onboardingContent">
+      <!-- المحتوى يتغير حسب الخطوة -->
+    </div>
+
+    <div class="onboarding-nav">
+      <button class="btn-ghost" id="wizardPrevBtn" onclick="wizardPrev()" style="display:none;">→ السابق</button>
+      <div style="flex:1"></div>
+      <span class="wizard-step-label" id="wizardStepLabel">خطوة 1 من 5</span>
+      <div style="flex:1"></div>
+      <button class="btn-primary btn-glow" id="wizardNextBtn" onclick="wizardNext()">التالي ←</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ واجهة التطبيق ═══════════════ -->
+<div id="appScreen" class="app-screen hidden">
+  
+  <!-- الشريط الجانبي -->
+  <aside class="sidebar glass-panel" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">Yourself</div>
+        <div class="brand-sub">إدارة حياتك</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+        <span class="nav-ico">📊</span><span>الرئيسية</span>
+      </button>
+      <button class="nav-item" data-section="finance" onclick="showSection('finance')">
+        <span class="nav-ico">💰</span><span>الحسابات المالية</span>
+      </button>
+      <button class="nav-item" data-section="notes" onclick="showSection('notes')">
+        <span class="nav-ico">📝</span><span>المذكرة</span>
+      </button>
+      <button class="nav-item" data-section="schedule" onclick="showSection('schedule')">
+        <span class="nav-ico">📅</span><span>تنظيم الوقت</span>
+      </button>
+      <button class="nav-item" data-section="health" onclick="showSection('health')">
+        <span class="nav-ico">💪</span><span>الصحة واللياقة</span>
+      </button>
+      <button class="nav-item" data-section="profile" onclick="showSection('profile')">
+        <span class="nav-ico">👤</span><span>الملف الشخصي</span>
+      </button>
+      
+      <div class="nav-sep" id="adminSep" style="display:none;">إدارة النظام</div>
+      <button class="nav-item admin-item" data-section="admin" onclick="showSection('admin')" id="adminNavBtn" style="display:none;">
+        <span class="nav-ico">⚙️</span><span>لوحة المطورين</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-mini glass-panel-sm">
+        <div class="avatar-sm" id="userAvatar">U</div>
+        <div class="user-mini-info">
+          <div class="user-mini-name" id="userMiniName">مستخدم</div>
+          <div class="user-mini-role" id="userMiniRole">عضو</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="handleLogout()">
+        <span>🚪</span><span>تسجيل الخروج</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- زر القائمة للجوال -->
+  <button class="mobile-menu-btn glass-panel" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="main-content">
+    <!-- سيتم حقن الأقسام هنا -->
+    <div id="appContent"></div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+        </html>
